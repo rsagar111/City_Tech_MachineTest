@@ -1,0 +1,121 @@
+﻿@model MachineTest.Models.VendorModel
+
+@{
+    ViewBag.Title = "VendorList";
+}
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css" />
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js"></script>
+<script src="~/Content/JS/jquery.table2excel.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tblVendor').DataTable();
+    })
+</script>
+<br />
+<br />
+
+<div class="card" style="background: #edf7f1; border-radius: 5px;">
+    <div class="card-header" style="background-color: #86d4f6; padding: 5px; border-radius: 5px;">
+        <h3> <span><img src="~/Content/Img/logo.png"  style="height:30px;width:30px;"/></span> VENDORS </h3>
+    </div>
+    <div class="row">
+        <div class="col-md-9"></div>
+        <div class="col-md-2"><a href="#" class="glyphicon glyphicon-download-alt" id="downloadLink">Download Excel</a></div>
+        <div class="col-md-1"><a href="/Vendor/Addvendor" class="glyphicon glyphicon-plus-sign">Add New</a></div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered table-responsive" id="tblVendor">
+                    <thead style="background-color:#1994ed">
+                        <tr>
+                            <th>Vendor Code</th>
+                            <th>Vendor Name</th>
+                            <th>Vendor Email</th>
+                            <th>VAT Registration No.</th>
+                            <th>Country Name</th>
+                            <th>Goverment official</th>
+                            <th>interacting with government official</th>
+                            <th>Vendor Activities</th>
+                            <th>Added by</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model.lstVendorModel != null && Model.lstVendorModel.Count > 0)
+                            {
+                                foreach (var item in Model.lstVendorModel)
+                                {
+                                    <tr>
+                                        <td>@item.Vendor_Code</td>
+                                        <td>@item.Vendor_Name</td>
+                                        <td>@item.Vendor_EmailId</td>
+                                        <td>@item.Vat_RegistrationNo</td>
+                                        <td>@item.Country</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>No Idea</td>
+                                        <td>@item.Addedby</td>
+                                        <td>Active</td>
+                                        <td>
+                                            <a href="/Vendor/AddVendor?mode=U&vendorid=@item.Vendor_Id"> <span style=" border-radius: 20px; border: 2px solid;padding: 3px; color: gray;"><i class="glyphicon glyphicon-edit" style=" font-size: 16px; "></i></span></a>
+                                            <br />
+                                            <a href="#" onclick="DeleteVendor('@item.Vendor_Id')"> <span style="border-radius: 20px; border: 2px solid; padding: 3px; color: red;"><i class="glyphicon glyphicon-trash" style=" font-size: 16px;"></i></span></a>
+                                        </td>
+                                    </tr>
+
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="row" style=" background: #ebf1eb;">
+        <br />
+        <div class="row" style="background: #beefdf;">
+            <div class="col-sm-12"></div>
+        </div>
+        <br />
+
+    </div>*@
+
+<script>
+    function DeleteVendor(vendorid) {
+        if (confirm("Are you sure want to delete")) {
+            if (vendorid != null && vendorid > 0) {
+                $.post('/Vendor/DeleteVendor', { vendorid: vendorid }, function (res) {
+                    if (res == "True") {
+                        alert('Vendor Deleted Successfully...');
+                        window.location.href = "/Vendor/VendorList"
+                    }
+                    else {
+                        alert('Vendor Not Deleted');
+                    }
+                })
+            }
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    $("#downloadLink").click(function () {
+        $("#tblVendor").table2excel({
+            // exclude CSS class
+            exclude: ".noExl",
+            name: "Worksheet Name",
+            filename: "Vendors",//do not include extension
+            fileext: ".xls" // file extension
+        });
+    });
+
+</script>

@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/LayoutHome.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var height = window.innerHeight;
+        var width = window.innerWidth;
+
+        $('#m_div').css('height', height + 'px');
+        $('#m_div').css('width', width + 'px');
+    })
+
+</script>
+
+<div class="row" style=" background-image: url('/Content/Img/CityTech.JPG');" id="m_div">
+
+
+</div>
+

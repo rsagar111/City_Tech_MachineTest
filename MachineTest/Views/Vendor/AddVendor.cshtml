@@ -1,0 +1,379 @@
+﻿@model MachineTest.Models.VendorModel
+@{
+    ViewBag.Title = "AddVendor";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<style>
+    .row {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        if ('@ViewData["msg"]'!="") {
+            alert('@ViewData["msg"]');
+            window.location.href = "/Vendor/VendorList";
+        }
+        if ('@Model.Mode' == "U") {
+            $('#Country').val('@Model.Country');
+        }
+         else {
+            $('#Country').val('0');
+        }
+
+    })
+</script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => Model.Vendor_Id)
+
+    <div class="card" style="background: #edf7f1; border-radius: 5px;">
+        <div class="card-header" style="background-color: #86d4f6; padding: 5px; border-radius: 5px;">
+            @if (Model.Mode == "U")
+            {
+                <h3><span><img src="~/Content/Img/logo.png" style="height:30px;width:30px;" /></span> VENDOR - UPDATE </h3>
+            }
+            else
+            {
+                <h3><span><img src="~/Content/Img/logo.png" style="height:30px;width:30px;" /></span> VENDORS - ADD </h3>
+            }
+
+        </div>
+        <div class="card-body">
+            @if (Model.Mode == "U")
+            {
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Vendor Code</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Vendor_Code, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "V00367" } })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Vendor Name</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Vendor_Name, new { htmlAttributes = new { @class = "form-control", @maxlength = "30", @placeholder = "Vender Name" } })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Address</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Vendor_Address, new { htmlAttributes = new { @class = "form-control", @maxlength = "100", @placeholder = "Address" } })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Country</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(model => model.Country, (IEnumerable<SelectListItem>)ViewBag.Country, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Email ID</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Vendor_EmailId, new { htmlAttributes = new { @class = "form-control", @type = "email", @maxlength = "30", @placeholder = "Email ID" } })
+                        @Html.ValidationMessageFor(model => model.Vendor_EmailId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>VAT Registration No.</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Vat_RegistrationNo, new { htmlAttributes = new { @class = "form-control", @maxlength = "30", @placeholder = "VAT Registration No" } })
+                        @Html.ValidationMessageFor(model => model.Vat_RegistrationNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Vendor Code</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Vendor_Code, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "V00367" } })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Vendor Name</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Vendor_Name, new { htmlAttributes = new { @class = "form-control", @maxlength = "30", @placeholder = "Vender Name" } })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Address</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Vendor_Address, new { htmlAttributes = new { @class = "form-control", @maxlength = "100", @placeholder = "Address" } })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Postal Code</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.PostalCode, new { @class = "form-control", @onkeypress = "return onlyNumberKey(event)", @maxlength = "6", @min = "100000", @max = "999999", @placeholder = "Postal Code" })
+                        @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Country</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(model => model.Country, (IEnumerable<SelectListItem>)ViewBag.Country, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Email ID</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Vendor_EmailId, new { htmlAttributes = new { @class = "form-control", @type = "email", @maxlength = "30", @placeholder = "Email ID" } })
+                        @Html.ValidationMessageFor(model => model.Vendor_EmailId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Contact Person</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Contact_Person, new { htmlAttributes = new { @class = "form-control", @maxlength = "30", @placeholder = "Contact Person" } })
+                        @Html.ValidationMessageFor(model => model.Contact_Person, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Contact Number</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Contact_Number, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "Contact Number", @onkeypress = "return onlyNumberKey(event)", @min = "5700000000", @max = "9999999999" } })
+                        @Html.ValidationMessageFor(model => model.Contact_Number, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>VAT Registration No.</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Vat_RegistrationNo, new { htmlAttributes = new { @class = "form-control", @maxlength = "30", @placeholder = "VAT Registration No" } })
+                        @Html.ValidationMessageFor(model => model.Vat_RegistrationNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Payment Terms Day</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(model => model.Payment_TermsDay, (IEnumerable<SelectListItem>)ViewBag.PaymentTermsDay, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Payment_TermsDay, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Payment Terms</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.TextAreaFor(model => model.Payment_Terms, new { @class = "form-control", @style = "width: 100%;height: 115px;resize: none;", @maxlength = "100", @placeholder = "Payment Terms" })
+                        @Html.ValidationMessageFor(model => model.Payment_Terms, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Contract Start Date</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.Contract_StartDate, new { @class = "form-control", @type = "date", @placeholder = "Contract Start Date" })
+                        @Html.ValidationMessageFor(model => model.Contract_StartDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Contract Expiry Date</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.Contract_ExpiryDate, new { @class = "form-control", @type = "date", @placeholder = "Contract Expiry Date" })
+                        @Html.ValidationMessageFor(model => model.Contract_ExpiryDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Company Signed the agreement</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.CheckBoxFor(model => model.IsCompaySigned, new { @style = "width:15px;height:15px;" })
+                        @Html.ValidationMessageFor(model => model.IsCompaySigned, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <input type="button" onclick="CheckValidation()" id="btnsave" value="Save" class="btn btn-success" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+}
+<br />
+<br />
+
+<div>
+    @Html.ActionLink("Back to List", "VendorList")
+</div>
+
+<script>
+    function CheckValidation() {
+        var regName = /^[a-zA-Z ]+$/;
+        if ($('#Vendor_Code').val().trim() == "" || $('#Vendor_Code').val().trim() == undefined) {
+            alert('Please fill vendor code');
+            $('#Vendor_Code').focus();
+            return false;
+        }
+        if ($('#Vendor_Name').val().trim() == "" || $('#Vendor_Name').val().trim() == undefined) {
+            alert('Please fill vendor name');
+            $('#Vendor_Name').focus();
+            return false;
+        }
+        if (!regName.test($('#Vendor_Name').val().trim())) {
+            alert('Please enter valid name');
+            $('#Vendor_Name').focus();
+            return false;
+        }
+        if ($('#Vendor_Address').val().trim() == "" || $('#Vendor_Address').val().trim() == undefined) {
+            alert('Please fill address');
+            $('#Vendor_Address').focus();
+            return false;
+        }
+        if ($('#PostalCode').val().trim() == "" || $('#PostalCode').val().trim() == undefined) {
+            alert('Please fill postal code');
+            $('#PostalCode').focus();
+            return false;
+        }
+        if ($('#Country').val().trim() == "0" || $('#Country').val().trim() == "-1") {
+            alert('Please select country');
+            $('#Country').focus();
+            return false;
+        }
+        if ($('#Vendor_EmailId').val().trim() == "" || $('#Vendor_EmailId').val().trim() == undefined) {
+            alert('Please fill email id');
+            $('#Vendor_EmailId').focus();
+            return false;
+        }
+        if ($('#Contact_Person').val().trim() == "" || $('#Contact_Person').val().trim() == undefined) {
+            alert('Please fill contact person');
+            $('#Contact_Person').focus();
+            return false;
+        }
+        if (!regName.test($('#Contact_Person').val().trim())) {
+            alert('Please enter valid name');
+            $('#Contact_Person').focus();
+            return false;
+        }
+        if ($('#Contact_Number').val().trim() == "" || $('#Contact_Number').val().trim() == undefined) {
+            alert('Please fill contact number');
+            $('#Contact_Number').focus();
+            return false;
+        }
+        if ($('#Vat_RegistrationNo').val().trim() == "" || $('#Vat_RegistrationNo').val().trim() == undefined) {
+            alert('Please fill VAT Registration no.');
+            $('#Vat_RegistrationNo').focus();
+            return false;
+        }
+        if ($('#Payment_TermsDay').val().trim() == "0" || $('#Payment_TermsDay').val().trim() == "-1") {
+            alert('Please select Payment Terms Day');
+            $('#Payment_TermsDay').focus();
+            return false;
+        }
+        if ($('#Payment_Terms').val().trim() == "" || $('#Payment_Terms').val().trim() == undefined) {
+            alert('Please fill payment terms');
+            $('#Payment_Terms').focus();
+            return false;
+        }
+        if ($('#Contract_StartDate').val().trim() == "" || $('#Contract_StartDate').val().trim() == undefined) {
+            alert('Please fill contract start date');
+            $('#Contract_StartDate').focus();
+            return false;
+        }
+        if ($('#Contract_ExpiryDate').val().trim() == "" || $('#Contract_ExpiryDate').val().trim() == undefined) {
+            alert('Please fill contract expiry date');
+            $('#Contract_ExpiryDate').focus();
+            return false;
+        }
+
+        if ($('#Contract_StartDate').val().trim() > $('#Contract_ExpiryDate').val().trim()) {
+            alert("Invalid Date Range");
+            $('#Contract_ExpiryDate').focus();
+            return false;
+        }
+
+        if ($('#IsCompaySigned').prop('checked') == false) {
+            alert('Please checked company signed the agreement ');
+            $('#IsCompaySigned').focus();
+            return false;
+        }
+        else {
+            $('#btnsave').attr('type', 'submit');
+        }
+    }
+
+    //Only input interger
+    function onlyNumberKey(evt) {
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
